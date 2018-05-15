@@ -8,7 +8,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const authModule = require('./lib/auth');
-const dataModule = require('./lib/data');
+const eventsModule = require('./lib/events');
 
 const config = require('./config');
 const pool = new Pool({
@@ -25,7 +25,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const smtpTransport = nodemailer.createTransport(config.smtpSettings);
 
 const auth = authModule(pool, smtpTransport, config.jwtCertificate);
-const data = dataModule(pool);
+const events = eventsModule(pool);
 
 const app = express();
 const port = process.env.NODE_PORT || 3000;
@@ -151,35 +151,14 @@ app.get('/favicon.ico', function(req, res) {
     res.end();
 });
 
-app.post('/trees/create', function(req, res){
-    data.createTree( req.userId, req.body, function(data){
+app.post('/events', function(req, res){
+    events.createEvent( req.userId, req.body, function(data){
       res.status(201).json({
         data
       });
     });
 });
 
-
-app.get('/trees/details/user', function(req, res){   
-    
-  data.treesForUser(req.userId, function(data){
-    res.status(200).json(              
-       data.rows
-    )
-  });
-
-});
-
-app.get('/trees', function(req, res){   
-    
-  data.trees(function(data){
-    res.status(200).json(             
-      data.rows
-    )
-  })
-
-});
-  
 app.get('*',function(req, res){    
     res.sendFile(path.join(__dirname,'index.html'));
 });
