@@ -23,7 +23,6 @@ const datastore = new Datastore({
 });
 
 
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 // this needs to be stubbed
