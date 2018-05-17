@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/datastore": "^1.4.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "brcypt": "^1.0.1",
