@@ -32,7 +32,7 @@ const auth = authModule(pool, smtpTransport, config.jwtCertificate);
 const events = eventsModule(datastore);
 
 const Server = require('./lib/server'); 
-const server = new Server(auth, events);
+const server = new Server(auth, events, config);
 const port = process.env.NODE_PORT || 3000;
 
 server.get('/favicon.ico', function(req, res) {
